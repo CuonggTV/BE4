@@ -17,6 +17,7 @@ accountRouter.post('/accounts', async (req, res) => {
     for (let  i =0;i < errors.length; i++) {
         let name = "error" + i.toString();
         result[name] = errors[i].message;
+
     }
     if (errors.length == 0) {
         let encryptedPwd = EncryptionUtils.encryptPassword(dto.password);
