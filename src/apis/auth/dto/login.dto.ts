@@ -11,10 +11,10 @@ export class LoginDTO {
     validate(){
         let errors: ValidationError[] = [];
         if(this.username.length == 0){
-            errors.push(new ValidationError("username","Empty username!"));
+            errors.push(new ValidationError("error","Empty username!"));
         }
         if(this.password.length == 0){
-            errors.push(new ValidationError("password","Empty password!"));
+            errors.push(new ValidationError("error","Empty password!"));
         }
         return errors;
     }

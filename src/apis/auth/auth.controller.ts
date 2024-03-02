@@ -14,8 +14,9 @@ authRouter.post('/login-with-username-and-password', async (req, res) => {
     const dto = new LoginDTO(req.body.username, req.body.password);
     const errors: ValidationError[] = dto.validate();
     let result: any = {}
-    for (let err of errors) {
-        result[err.name] = err.message;
+    for (let  i =0;i < errors.length; i++) {
+        let name = "error" + i.toString();
+        result[name] = errors[i].message;
     }
 
     //Call service
@@ -50,7 +51,6 @@ authRouter.get('/profile', async (req, res) => {
                 };
             }
         }
-        console.log(result)
         res.json(result);
     });
 

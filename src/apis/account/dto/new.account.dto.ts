@@ -12,13 +12,13 @@ export class NewAccountDTO {
     async validate(){
         let errors: ValidationError[] = [];
         if(!this.username){
-            errors.push(new ValidationError("username","Empty username!"));
+            errors.push(new ValidationError("error","Empty username!"));
         }
         else if(await AccountService.findAccountByUsername(this.username)){
-            errors.push(new ValidationError("username","Username exists!"));
+            errors.push(new ValidationError("error","Username exists!"));
         }
         if(!this.password){
-            errors.push(new ValidationError("password","Empty password!"));
+            errors.push(new ValidationError("error","Empty password!"));
         }
         return errors
     }
