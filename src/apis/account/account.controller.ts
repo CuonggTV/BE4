@@ -14,6 +14,7 @@ const accountRouter = express();
 accountRouter.use(express.json())
 
 accountRouter.post('/accounts', async (req, res) => {
+<<<<<<< HEAD
     let newAccountDto = plainToClass(NewAccountDTO,req.body);
     let jsonResponse = {};
 
@@ -32,6 +33,23 @@ accountRouter.post('/accounts', async (req, res) => {
 
     //Nen tao them resposne dto
     res.json(jsonResponse);
+=======
+    let dto: NewAccountDTO = new NewAccountDTO(req.body.username, req.body.password);
+    let errors: ValidationError[] = await dto.validate();
+    let result: any = {}
+    for (let  i =0;i < errors.length; i++) {
+        let name = "error" + i.toString();
+        result[name] = errors[i].message;
+
+    }
+    if (errors.length == 0) {
+        let encryptedPwd = EncryptionUtils.encryptPassword(dto.password);
+        await AccountService.createAccount(dto.username,encryptedPwd)
+    }
+    else {
+        res.json(result);
+    }
+>>>>>>> 4ae078f45f6da1cc341c024ec9f616fa290f8984
 
 });
 module.exports = accountRouter

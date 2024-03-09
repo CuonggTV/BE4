@@ -19,7 +19,6 @@ authRouter.post('/login-with-username-and-password', async (req, res) => {
 
     let jsonResponse = {};
 
-
     //validate error 
     await validate(loginDto).then(async errors => {
         if (errors.length > 0) {
@@ -40,13 +39,8 @@ authRouter.get('/profile', async (req, res) => {
             if (accountResponse) {
                 res.json(accountResponse);
             }
-            else {
-                res.json(result);
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        res.json(result);
+    });
 })
 
 module.exports = authRouter
