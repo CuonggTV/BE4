@@ -1,15 +1,12 @@
-import { ObjectId } from "mongodb"
-import { Entity, Column, ObjectIdColumn } from "typeorm"
+import { ObjectId } from "mongodb";
+import { Schema } from "mongoose";
 
-@Entity()
-export class Account {
-    @ObjectIdColumn()
-    _id: ObjectId
+import mongoose = require("mongoose");
 
-    @Column()
-    username: string
+const AccountSchema = new mongoose.Schema({
+    _id: ObjectId,
+    username: String,
+    password: String
+});
 
-    @Column()
-    password: string
-
-}
+module.exports = AccountSchema;

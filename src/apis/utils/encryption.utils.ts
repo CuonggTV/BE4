@@ -1,7 +1,4 @@
 let bcrypt = require("bcrypt")
-import { ObjectId } from "typeorm";
-import { AccountService } from "../account/account.service";
-
 
 export class EncryptionUtils {
     static encryptPassword(password: string) {

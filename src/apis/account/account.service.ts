@@ -1,21 +1,16 @@
-import { ObjectId } from "typeorm";
-import { AppDataSource } from "../../data-source";
-import { Account } from "./account.entity";
+import mongoose from "mongoose";
 
-let accountRepo = AppDataSource.getMongoRepository(Account);
+const AccountSchema = require("./account.entity");
 
+const AccountModel = mongoose.model('account', AccountSchema);
 export class AccountService {
-    static async findAccount() {
-        return await accountRepo.find({})
-    }
-
     static async findAccountByUsername(username: string) {
-        let result =  await accountRepo.findOneBy({username: username})
+        let result = await AccountModel.findOne({ username: username })
         return result;
     }
 
     static async createAccount(username: string, password: string) {
-        return accountRepo.insertOne({
+        return AccountModel.insertMany({
             username: username,
             password: password
         })

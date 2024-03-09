@@ -1,7 +1,6 @@
 import jwt = require('jsonwebtoken')
 import { Env } from './env'
 
-
 export class TokenUtils {
     static generateToken(sub: string) {
         return jwt.sign({}, Env.JWT_SECRET, {
