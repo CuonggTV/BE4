@@ -34,7 +34,6 @@ export class AuthService {
             if (authorization && authorization.startsWith("Bearer ")) {
                 token = authorization.split(" ")[1];
             }
-            console.log(token);
 
             // 2. Verify token
             TokenUtils.verifyToken(token, async (decoded: any) => {

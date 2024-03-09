@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const AccountSchema = require("./account.entity");
+const AccountSchema = require("./account.schema");
 
 const AccountModel = mongoose.model('account', AccountSchema);
 export class AccountService {

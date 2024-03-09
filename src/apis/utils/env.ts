@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-
 export class Env {
 
     static DB_HOST =  process.env.DB_HOST || "";

@@ -10,9 +10,6 @@ import { LoginResponseDTO } from "./dto/login.response.dto";
 import { AccountDetailsDTO } from "../account/dto/account-details.dto";
 
 const authRouter = express();
-let bodyParser = require('body-parser')
-
-authRouter.use(express.json())
 
 authRouter.post('/login-with-username-and-password', async (req, res) => {
     const loginDto = plainToClass(LoginDTO, req.body, { excludeExtraneousValues: true });
@@ -39,8 +36,11 @@ authRouter.get('/profile', async (req, res) => {
             if (accountResponse) {
                 res.json(accountResponse);
             }
-        res.json(result);
-    });
+            else res.json(result);
+        })
+        .catch(err => {
+            console.log(err)
+        });
 })
 
 module.exports = authRouter
