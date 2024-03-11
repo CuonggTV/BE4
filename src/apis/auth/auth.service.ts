@@ -1,15 +1,13 @@
-import { json } from "body-parser";
-import { AccountService } from "../account/account.service"
+import { AccountDAO } from "../account/account.dao"
 import { TokenUtils } from "../utils/token.utils";
 import { LoginDTO } from "./dto/login.dto"
 
-import jwt = require("jsonwebtoken");
 import { EncryptionUtils } from "../utils/encryption.utils";
 import { Request } from "express";
 
 export class AuthService {
     static async login(dto: LoginDTO) {
-        const account = await AccountService.findAccountByUsername(dto.username);
+        const account = await AccountDAO.findAccountByUsername(dto.username);
 
         if (!account) {
             return {
@@ -22,7 +20,7 @@ export class AuthService {
                 message: "Password is uncorrected!"
             }
         }
-        let token = TokenUtils.generateToken(dto.username);
+        let token = TokenUtils.generateToken(account._id.toString());
         return { accessToken: token }
     }
 
@@ -41,11 +39,12 @@ export class AuthService {
                     reject({ message: decoded.message });
                 }
                 else {
-                    let account = await AccountService.findAccountByUsername(decoded.sub);
+                    let account = await AccountDAO.findAccountById(decoded.sub);
                     if (account) {
                         resolve({
                             id: account._id.toString(),
-                            username: account.username
+                            username: account.username,
+                            detail: account.detail
                         });
                     }
                 }

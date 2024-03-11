@@ -1,14 +1,14 @@
 import express = require("express")
 import { LoginDTO } from "./dto/login.dto"
 import { AuthService } from "./auth.service";
-import { TokenUtils } from "../utils/token.utils";
-import { AccountService } from "../account/account.service";
-import { classToClassFromExist, plainToClass } from "class-transformer";
+import { plainToClass } from "class-transformer";
 
 import { validate } from "class-validator";
 import { LoginResponseDTO } from "./dto/login.response.dto";
-import { AccountDetailsDTO } from "../account/dto/account-details.dto";
-
+import { ProfileDTO } from "../account/dto/profile.dto";
+import { Env } from "../utils/env";
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const authRouter = express();
 
 authRouter.post('/login-with-username-and-password', async (req, res) => {
@@ -32,15 +32,29 @@ authRouter.post('/login-with-username-and-password', async (req, res) => {
 authRouter.get('/profile', async (req, res) => {
     await AuthService.profileFunction(req)
         .then(async result => {
-            const accountResponse = plainToClass(AccountDetailsDTO, result);
+            const accountResponse = plainToClass(ProfileDTO, result);
             if (accountResponse) {
                 res.json(accountResponse);
             }
             else res.json(result);
+
         })
         .catch(err => {
             console.log(err)
         });
 })
+
+authRouter.get('/login-with-google', passport.authenticate('google', {
+    scope: ['profile', 'email']
+}), (req, res) => {
+    console.log("hello")
+}
+);
+
+authRouter.get('/login-with-google/callback', passport.authenticate('google'), (req, res) => {
+
+});
+
+
 
 module.exports = authRouter
